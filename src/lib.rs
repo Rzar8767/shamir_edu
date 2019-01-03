@@ -28,7 +28,10 @@ mod tests {
             points.push(x);
             values.push(shamir_test.get_share(x as u8).1);
         }
-        assert_eq!(secret, SecretData::recover_secret(threshold, &points, &values, shamir_test.prime).unwrap());
+        assert_eq!(
+            secret,
+            SecretData::recover_secret(threshold, &points, &values, shamir_test.prime).unwrap()
+        );
     }
 }
 
@@ -54,7 +57,7 @@ impl SecretData {
         coefficients.extend(between.sample_iter(&mut rng).take((threshold - 1) as usize));
 
         SecretData {
-            secret_data: None,
+            secret_data: Some(secret),
             coefficients: coefficients,
             // all coefficients have to be lower than it and it has to be known when trying to retrieve the secret
             prime: prime,
